@@ -1,0 +1,141 @@
+:root {
+    --color-dark: rgb(25, 19, 23);
+    --color-dark2: rgb(32, 32, 32);
+    --color-dark3: rgb(22, 22, 22);
+    --color-white: #fff;
+    --color-purple: rgb(98, 39, 116);
+    --color-green: #28a745; 
+}
+
+body {
+    background-color: var(--color-dark);
+    color: var(--color-white);
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    margin: 0;
+    padding: 1rem;
+}
+
+.content {
+    width: 100%;
+    max-width: 600px;
+}
+
+.content--add-item {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+#input-name-item {
+    flex: 1;
+    padding: 0.5rem 1rem;
+    border: none;
+    outline: none;
+    border-radius: 4px;
+}
+
+#input-name-item:focus {
+    outline: 2px solid var(--color-green);
+}
+
+#btn-novo-item {
+    padding: 0.8rem 1rem;
+    border: none;
+    background-color: var(--color-purple);
+    color: var(--color-white);
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+#btn-novo-item:hover {
+    background-color: rgb(80, 80, 80);
+    color: var(--color-white);
+}
+
+.content--counter {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 1.5rem 0;
+    font-size: 14px;
+}
+
+.content--counter p {
+    margin: 0;
+}
+
+#lista-compras {
+    padding: 0;
+}
+
+#lista-compras li {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    background-color: var(--color-dark2);
+    padding: 0.8rem;
+    margin-bottom: 0.5rem;
+    border-radius: 4px;
+}
+
+#lista-compras li button {
+    border: none;
+    padding: 0.5rem 0.8rem;
+    background-color: var(--color-dark3);
+    color: var(--color-white);
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+#lista-compras li button:hover {
+    background-color: rgb(50, 50, 50);
+}
+
+#lista-compras li.comprado {
+    text-decoration: line-through;
+    opacity: 0.5;
+}
+
+.item-buttons {
+    display: flex;
+    gap: 0.4rem;
+}
+
+/* aqui embaixo resolvemos as questões dos breakpoints ( responsividade da aplicação ) */
+/* celulares / tablets (481px até 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+    .content {
+        width: 95%;
+    }
+
+    .content--counter {
+        gap: 1.5rem;
+        font-size: 15px;
+    }
+
+    #lista-compras li button {
+        padding: 0.6rem 0.9rem;
+    }
+}
+
+/* pcs e notebooks (acima de 769px) */
+@media (min-width: 769px) {
+    .content {
+        max-width: 700px;
+    }
+
+    .content--counter {
+        font-size: 16px;
+        gap: 2rem;
+    }
+
+    #lista-compras li {
+        padding: 1rem;
+    }
+}

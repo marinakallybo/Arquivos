@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PetAgenda — Agendamentos do pet shop</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topo">
+    <div class="container topo__in">
+      <h1 class="logo">🐾 Pet<span>Agenda</span></h1>
+      <p class="relogio"><time id="relogio">--</time></p>
+      <button id="btn-tema" class="btn btn-sec" type="button" aria-label="Alternar tema">Escuro</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Resumo (visibilidade do estado do sistema) -->
+    <section class="resumo" aria-label="Resumo">
+      <div class="kpi"><span id="k-hoje">0</span><small>Hoje</small></div>
+      <div class="kpi"><span id="k-prox">0</span><small>Próximos</small></div>
+      <div class="kpi"><span id="k-atras">0</span><small>Atrasados</small></div>
+      <div class="kpi"><span id="k-fat">R$ 0,00</span><small>Previsto</small></div>
+    </section>
+
+    <section aria-labelledby="t-ag">
+      <div class="barra">
+        <h2 id="t-ag">Agendamentos <small id="contagem"></small></h2>
+        <label for="busca" class="sr-only">Buscar por pet ou tutor</label>
+        <input id="busca" type="search" placeholder="Buscar pet ou tutor…">
+        <label for="periodo" class="sr-only">Período</label>
+        <select id="periodo">
+          <option value="todos">Todas as datas</option>
+          <option value="hoje">Hoje</option>
+          <option value="proximos">Próximos</option>
+        </select>
+        <label for="status" class="sr-only">Status</label>
+        <select id="status">
+          <option>Todos</option><option>Agendado</option><option>Concluído</option><option>Cancelado</option>
+        </select>
+        <button id="novo" class="btn" type="button">+ Novo agendamento</button>
+      </div>
+      <ul id="lista" class="lista"></ul>
+    </section>
+  </main>
+
+  <footer class="rodape"><div class="container"><p>© 2026 PetAgenda · Atendimento das 08h às 18h · Projeto didático</p></div></footer>
+
+  <dialog id="dlg" aria-labelledby="t-form">
+    <form id="form" novalidate>
+      <h2 id="t-form">Agendamento</h2>
+      <input type="hidden" id="f-id">
+      <label for="f-pet">Nome do pet</label><input id="f-pet" type="text">
+      <label for="f-tutor">Nome do tutor</label><input id="f-tutor" type="text">
+      <label for="f-servico">Serviço</label><select id="f-servico"></select>
+      <div class="duas">
+        <div><label for="f-data">Data</label><input id="f-data" type="date"></div>
+        <div><label for="f-hora">Hora</label><input id="f-hora" type="time" step="900"></div>
+      </div>
+      <p id="erro-form" class="erro" role="alert"></p>
+      <div class="acoes">
+        <button type="button" id="cancelar" class="btn btn-sec">Cancelar</button>
+        <button type="submit" class="btn">Salvar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>

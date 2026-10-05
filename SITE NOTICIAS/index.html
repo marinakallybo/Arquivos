@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<!-- lang="pt-BR": ajuda leitores de tela e tradutores (acessibilidade) -->
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"> <!-- permite acentos e caracteres especiais -->
+  <!-- viewport: essencial para o site ser responsivo no celular -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pixel Press — Notícias de games</title>
+
+  <!-- Fontes do Google Fonts: Fraunces (títulos, serifada) + Inter (corpo) -->
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- Liga o arquivo CSS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ============ BARRA SUPERIOR: selo "ao vivo", relógio e botão de tema ============ -->
+  <div class="topbar">
+    <div class="container topbar__inner">
+      <p>
+        <span class="live">● AO VIVO</span>
+        <!-- <time>: tag semântica para datas/horas. O JS preenche o texto. -->
+        <time id="relogio">--</time>
+      </p>
+      <!-- aria-label descreve o botão para leitores de tela -->
+      <button id="btn-tema" class="btn-tema" type="button" aria-label="Alternar tema claro/escuro">Escuro</button>
+    </div>
+  </div>
+
+  <!-- ============ MASTHEAD: logo, menu e busca ============ -->
+  <!-- <header>: cabeçalho do site (tag semântica obrigatória na prova) -->
+  <header class="masthead">
+    <div class="container masthead__inner">
+      <a class="logo" href="#">Pixel<span>Press</span></a>
+
+      <!-- <nav>: bloco de navegação. aria-label diferencia de outras navs. -->
+      <nav aria-label="Principal">
+        <ul class="nav">
+          <!-- data-cat: o JS lê esse valor para filtrar a grade -->
+          <li><a href="#ultimas" data-cat="Lançamentos">Lançamentos</a></li>
+          <li><a href="#ultimas" data-cat="Indie">Indie</a></li>
+          <li><a href="#ultimas" data-cat="Esports">Esports</a></li>
+          <li><a href="#ultimas" data-cat="Hardware">Hardware</a></li>
+          <li><a href="#ultimas" data-cat="Opinião">Opinião</a></li>
+        </ul>
+      </nav>
+
+      <!-- role="search" marca o formulário como busca (acessibilidade).
+           onsubmit="return false" impede o Enter de recarregar a página. -->
+      <form class="busca" role="search" onsubmit="return false">
+        <!-- label oculta visualmente (.sr-only), mas lida por leitores de tela -->
+        <label for="busca" class="sr-only">Buscar notícias</label>
+        <input id="busca" type="search" placeholder="Buscar notícias…">
+      </form>
+    </div>
+  </header>
+
+  <!-- <main>: conteúdo principal da página (só pode haver UM por página) -->
+  <main class="container">
+
+    <!-- ============ DESTAQUE (HERO): matéria principal + lista lateral ============ -->
+    <!-- aria-labelledby liga a seção ao título que a descreve -->
+    <section class="hero" aria-labelledby="hero-titulo">
+      <!-- <article>: conteúdo independente (uma notícia). O JS preenche. -->
+      <article id="destaque" class="hero__main"></article>
+      <!-- <aside>: conteúdo complementar ao principal (a lista "mais lidas") -->
+      <aside class="hero__lista" aria-label="Mais lidas">
+        <ol id="lista-lateral"></ol> <!-- ol = lista numerada; o JS preenche -->
+      </aside>
+    </section>
+
+    <!-- ============ ÚLTIMAS: filtros + grade de cards ============ -->
+    <!-- id="ultimas" é o destino dos links do menu (href="#ultimas") -->
+    <section id="ultimas" aria-labelledby="titulo-ultimas">
+      <div class="secao-topo">
+        <h2 id="titulo-ultimas">Últimas</h2>
+        <!-- role="group" agrupa os botões para leitores de tela -->
+        <div id="filtros" class="filtros" role="group" aria-label="Filtrar por categoria"></div>
+      </div>
+
+      <div id="grade" class="grade"></div> <!-- cards desenhados pelo JS -->
+
+      <!-- hidden: começa escondido; o JS mostra quando não há resultados -->
+      <p id="vazio" class="vazio" hidden>Nenhuma notícia encontrada.</p>
+
+      <div class="centro"><button id="mais" class="btn-outline" type="button">Carregar mais</button></div>
+    </section>
+
+    <!-- ============ NEWSLETTER ============ -->
+    <section class="newsletter" aria-labelledby="titulo-news">
+      <h2 id="titulo-news">Receba a Pixel Press no e-mail</h2>
+      <p>Um resumo semanal do mundo dos games. Sem spam.</p>
+      <!-- novalidate: desliga a validação do navegador, pois validamos com JS -->
+      <form id="form-news" novalidate>
+        <label for="email" class="sr-only">E-mail</label>
+        <input id="email" type="email" placeholder="seu@email.com">
+        <button type="submit" class="btn-destaque">Assinar</button>
+      </form>
+      <!-- role="status" + aria-live: leitores de tela anunciam a mensagem quando ela muda -->
+      <p id="msg-news" role="status" aria-live="polite"></p>
+    </section>
+  </main>
+
+  <!-- <footer>: rodapé do site -->
+  <footer class="rodape">
+    <div class="container rodape__inner">
+      <p>© 2026 Pixel Press · Projeto didático</p>
+      <ul>
+        <li><a href="#">Sobre</a></li>
+        <li><a href="#">Contato</a></li>
+        <li><a href="#">Privacidade</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <!-- Script no FIM do body: assim o HTML já existe quando o JS roda -->
+  <script src="script.js"></script>
+</body>
+</html>

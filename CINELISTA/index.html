@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CineLista — Catálogo de filmes</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topo">
+    <div class="container topo__in">
+      <h1 class="logo">Cine<span>Lista</span></h1>
+      <form class="busca" role="search" onsubmit="return false">
+        <label for="busca" class="sr-only">Buscar filme</label>
+        <input id="busca" type="search" placeholder="Buscar filme…">
+      </form>
+      <button id="btn-tema" class="btn btn-sec" type="button" aria-label="Alternar tema">Escuro</button>
+    </div>
+  </header>
+
+  <main class="container layout">
+    <section aria-labelledby="t-cat">
+      <div class="barra">
+        <h2 id="t-cat">Catálogo <small id="contagem"></small></h2>
+        <label for="genero" class="sr-only">Gênero</label>
+        <select id="genero"></select>
+        <label for="ordem" class="sr-only">Ordenar por</label>
+        <select id="ordem">
+          <option value="titulo">A–Z</option>
+          <option value="ano">Mais recentes</option>
+          <option value="nota">Melhor nota</option>
+        </select>
+        <button id="novo" class="btn" type="button">+ Novo filme</button>
+      </div>
+      <div id="grade" class="grade"></div>
+    </section>
+
+    <aside class="lista" aria-labelledby="t-lista">
+      <h2 id="t-lista">Quero assistir</h2>
+      <ul id="itens"></ul>
+      <p class="total">Tempo total: <strong id="tempo">0 min</strong></p>
+      <button id="limpar" class="btn btn-sec" type="button">Limpar lista</button>
+    </aside>
+  </main>
+
+  <footer class="rodape"><div class="container"><p>© 2026 CineLista · Projeto didático</p></div></footer>
+
+  <dialog id="dlg" aria-labelledby="t-form">
+    <form id="form" novalidate>
+      <h2 id="t-form">Filme</h2>
+      <input type="hidden" id="f-id">
+      <label for="f-titulo">Título</label><input id="f-titulo" type="text">
+      <label for="f-genero">Gênero</label>
+      <select id="f-genero"><option>Ação</option><option>Drama</option><option>Comédia</option><option>Ficção</option><option>Animação</option></select>
+      <label for="f-ano">Ano</label><input id="f-ano" type="text" inputmode="numeric">
+      <label for="f-dur">Duração (min)</label><input id="f-dur" type="text" inputmode="numeric">
+      <label for="f-nota">Nota (0 a 10)</label><input id="f-nota" type="text" inputmode="decimal">
+      <p id="erro-form" class="erro" role="alert"></p>
+      <div class="acoes">
+        <button type="button" id="cancelar" class="btn btn-sec">Cancelar</button>
+        <button type="submit" class="btn">Salvar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>

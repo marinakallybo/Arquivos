@@ -1,0 +1,204 @@
+/* =====================================================================
+   STYLE.CSS — aparência do site
+   Ordem: variáveis > base > componentes (de cima para baixo na página)
+   > media queries (sempre por último, para sobrescrever o resto).
+   ===================================================================== */
+
+/* ========== 1. VARIÁVEIS (paleta + fontes) ==========
+   :root = o elemento <html>. Variáveis definidas aqui valem na página toda.
+   Uso: color: var(--ink);  -> trocar a cor num só lugar muda o site inteiro. */
+:root {
+  --paper: #ffffff;   /* fundo da página */
+  --ink: #16141f;     /* texto principal */
+  --slate: #5d5a6e;   /* texto secundário (metadados) */
+  --mist: #f0eff5;    /* superfícies suaves (campo de busca) */
+  --line: #e3e1ea;    /* linhas e bordas */
+  --signal: #7c3aed;  /* cor de destaque (logo, "ao vivo", botões) */
+
+  /* Uma cor por categoria */
+  --lancamentos: #7c3aed;
+  --indie: #0e9f6e;
+  --esports: #e0452b;
+  --hardware: #2563eb;
+  --opiniao: #5d5a6e;
+
+  /* Fontes: a 2ª e 3ª opções são reserva, caso a 1ª não carregue */
+  --font-titulo: "Fraunces", Georgia, serif;
+  --font-corpo: "Inter", system-ui, sans-serif;
+}
+
+/* TEMA ESCURO: o JS coloca data-theme="dark" no <html>.
+   Aqui só REDEFINIMOS as variáveis; o resto do CSS não muda nada. */
+[data-theme="dark"] {
+  --paper: #121018;
+  --ink: #f2f0fa;
+  --slate: #a09db3;
+  --mist: #1d1a28;
+  --line: #2b2738;
+  --signal: #a78bfa;
+}
+
+/* ========== 2. BASE (reset e regras gerais) ========== */
+
+/* Reset: tira margens/espaços padrão do navegador.
+   box-sizing: border-box faz padding e borda ficarem DENTRO da largura definida. */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-corpo);
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.5;                          /* espaçamento entre linhas (legibilidade) */
+  transition: background .3s, color .3s;     /* troca de tema suave */
+}
+a { color: inherit; text-decoration: none; } /* links herdam a cor do texto */
+ul, ol { list-style: none; }                 /* remove bolinhas/números */
+img { display: block; max-width: 100%; }     /* imagem nunca passa do tamanho do pai */
+h1, h2, h3, .logo { font-family: var(--font-titulo); }
+
+/* .container: centraliza o conteúdo.
+   min(1100px, 92%) = no máximo 1100px, ou 92% da tela se for menor.
+   margin-inline: auto = margens laterais automáticas = centralizado. */
+.container { width: min(1100px, 92%); margin-inline: auto; }
+
+/* .sr-only: esconde visualmente, mas leitores de tela ainda leem */
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+
+/* ACESSIBILIDADE: contorno visível ao navegar com a tecla Tab.
+   :focus-visible só aparece no teclado (não incomoda no clique do mouse). */
+:focus-visible { outline: 3px solid var(--signal); outline-offset: 2px; }
+
+/* ========== 3. TOPO E MASTHEAD ========== */
+.topbar { border-bottom: 1px solid var(--line); font-size: .85rem; color: var(--slate); }
+
+/* FLEXBOX: display:flex põe os filhos lado a lado.
+   justify-content: space-between = um em cada ponta.
+   align-items: center = alinhados verticalmente ao centro. */
+.topbar__inner { display: flex; justify-content: space-between; align-items: center; padding-block: .5rem; }
+.live { color: var(--signal); font-weight: 600; margin-right: .5rem; }
+
+.btn-tema {
+  font: inherit;            /* botões não herdam a fonte sozinhos; isto corrige */
+  cursor: pointer;          /* mãozinha ao passar o mouse */
+  padding: .25rem .9rem;
+  border-radius: 999px;     /* valor enorme = bordas totalmente arredondadas (pílula) */
+  border: 1px solid var(--line); background: var(--paper); color: var(--ink);
+  transition: background .2s;
+}
+.btn-tema:hover { background: var(--mist); } /* estado HOVER (mouse em cima) */
+
+/* position: sticky + top: 0 = o cabeçalho "gruda" no topo ao rolar.
+   z-index alto = fica por cima dos outros elementos. */
+.masthead { position: sticky; top: 0; z-index: 10; background: var(--paper); border-bottom: 2px solid var(--ink); }
+.masthead__inner { display: flex; align-items: center; gap: 1.5rem; padding-block: 1rem; flex-wrap: wrap; }
+.logo { font-size: 1.8rem; font-weight: 700; }
+.logo span { color: var(--signal); }
+.nav { display: flex; gap: 1.2rem; font-weight: 500; }
+.nav a:hover { color: var(--signal); }
+.busca { margin-left: auto; } /* margem automática à esquerda empurra a busca para a direita */
+.busca input {
+  font: inherit; padding: .55rem 1rem; width: 240px; border-radius: 999px;
+  border: 1px solid transparent; background: var(--mist); color: var(--ink);
+}
+
+/* ========== 4. HERO (destaque) ==========
+   GRID: display:grid cria colunas e linhas.
+   2fr 1fr = a 1ª coluna ocupa o DOBRO da 2ª ("fr" = fração do espaço livre). */
+.hero { display: grid; grid-template-columns: 2fr 1fr; gap: 2.5rem; padding-block: 2rem; }
+.hero__main img {
+  width: 100%;
+  aspect-ratio: 16/9;    /* mantém proporção, evita imagens com alturas diferentes */
+  object-fit: cover;     /* a imagem preenche a caixa cortando o excesso (sem distorcer) */
+  border-radius: 12px;
+}
+/* clamp(mín, ideal, máx): fonte que cresce com a tela, mas dentro de limites */
+.hero__main h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); line-height: 1.15; margin: .8rem 0; }
+.hero__main p { color: var(--slate); font-size: 1.1rem; }
+.hero__lista li { display: flex; gap: .8rem; padding-block: 1rem; border-bottom: 1px solid var(--line); }
+.hero__lista .num { font-family: var(--font-titulo); font-size: 1.6rem; color: var(--signal); }
+.hero__lista h3 { font-size: 1.05rem; }
+.hero__lista a:hover h3 { text-decoration: underline; }
+
+/* ETIQUETA de categoria: cor padrão (cinza) ... */
+.tag {
+  display: inline-block; padding: .15rem .6rem; border-radius: 4px; color: #fff;
+  font-size: .72rem; font-weight: 600; text-transform: uppercase; letter-spacing: .04em;
+  background: var(--opiniao);
+}
+/* ... e SELETOR DE ATRIBUTO: cada categoria muda a cor conforme data-cat no HTML */
+.tag[data-cat="Lançamentos"] { background: var(--lancamentos); }
+.tag[data-cat="Indie"]       { background: var(--indie); }
+.tag[data-cat="Esports"]     { background: var(--esports); }
+.tag[data-cat="Hardware"]    { background: var(--hardware); }
+.meta { font-size: .8rem; color: var(--slate); margin-top: .4rem; }
+
+/* ========== 5. ÚLTIMAS (filtros + grade) ========== */
+.secao-topo { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-block: 1.5rem; }
+.filtros { display: flex; gap: .5rem; flex-wrap: wrap; } /* wrap: quebra de linha se faltar espaço */
+.filtros button {
+  font: inherit; font-size: .85rem; cursor: pointer; padding: .35rem .9rem; border-radius: 999px;
+  border: 1px solid var(--line); background: var(--paper); color: var(--slate);
+  transition: all .2s;
+}
+.filtros button:hover { border-color: var(--ink); }
+/* Classe "ativo" é adicionada pelo JS no botão selecionado */
+.filtros button.ativo { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+/* repeat(3, 1fr) = 3 colunas de tamanhos iguais */
+.grade { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.8rem; }
+.card { display: flex; flex-direction: column; gap: .5rem; transition: transform .2s; } /* flex-direction: column = empilha */
+.card:hover { transform: translateY(-4px); } /* sobe 4px no hover (animação sutil = bônus) */
+.card img { width: 100%; aspect-ratio: 16/10; object-fit: cover; border-radius: 10px; }
+.card h3 { font-size: 1.1rem; line-height: 1.3; }
+.vazio { text-align: center; color: var(--slate); padding: 2rem; }
+.centro { text-align: center; margin-block: 2rem; }
+.btn-outline {
+  font: inherit; font-weight: 600; cursor: pointer; padding: .6rem 1.6rem; border-radius: 999px;
+  border: 1px solid var(--ink); background: transparent; color: var(--ink);
+}
+.btn-outline:hover { background: var(--ink); color: var(--paper); } /* inverte as cores */
+
+/* ========== 6. NEWSLETTER E RODAPÉ ========== */
+.newsletter {
+  background: #16141f; color: #f2f0fa; text-align: center;   /* bloco escuro nos dois temas */
+  border-radius: 14px; padding: 2.5rem 1.5rem; margin-block: 2rem;
+}
+.newsletter h2 { margin-bottom: .5rem; }
+.newsletter p { color: #bdb9d0; }
+.newsletter form { display: flex; justify-content: center; gap: .6rem; margin-top: 1.2rem; flex-wrap: wrap; }
+.newsletter input {
+  font: inherit; padding: .65rem 1.1rem; width: min(320px, 100%); border-radius: 999px;
+  border: 1px solid #3a3550; background: #23202f; color: #fff;
+}
+.btn-destaque {
+  font: inherit; font-weight: 600; cursor: pointer; padding: .65rem 1.5rem; border: 0;
+  border-radius: 999px; background: var(--signal); color: #fff;
+}
+.btn-destaque:hover { filter: brightness(1.15); } /* deixa 15% mais claro no hover */
+#msg-news { margin-top: .8rem; min-height: 1.4em; } /* min-height evita "pulo" quando a mensagem aparece */
+#msg-news.erro { color: #ff8a7a; } /* classes adicionadas pelo JS */
+#msg-news.ok { color: #6ee7b7; }
+
+.rodape { border-top: 1px solid var(--line); color: var(--slate); font-size: .85rem; }
+.rodape__inner { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; padding-block: 1.5rem; }
+.rodape ul { display: flex; gap: 1rem; }
+.rodape a:hover { color: var(--signal); }
+
+/* ========== 7. RESPONSIVO (media queries) ==========
+   @media (max-width: X) = as regras só valem em telas COM ATÉ X pixels.
+   Abordagem "desktop first": o padrão é o layout grande e,
+   conforme a tela diminui, reduzimos as colunas. */
+
+/* Tablet: hero vira 1 coluna; grade, 2 colunas */
+@media (max-width: 900px) {
+  .hero { grid-template-columns: 1fr; }
+  .grade { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* Celular: grade em 1 coluna; busca ocupa a linha toda */
+@media (max-width: 600px) {
+  .grade { grid-template-columns: 1fr; }
+  .busca { margin-left: 0; width: 100%; }
+  .busca input { width: 100%; }
+  .nav { flex-wrap: wrap; }
+}
